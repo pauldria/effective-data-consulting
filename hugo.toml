@@ -1,0 +1,55 @@
+baseURL = "https://effectivedataconsulting.com/"
+languageCode = "en-us"
+title = "Effective Data Consulting"
+enableRobotsTXT = true
+enableGitInfo = false
+
+[pagination]
+  # Sections are small; this keeps /insights/ on a single page for a long while.
+  # NB: the old top-level `paginate` key was replaced by this in Hugo v0.128.
+  pagerSize = 20
+
+[params]
+  description = "Data strategy, architecture, and governance for startups and enterprises."
+  email = "raff@effectivedataconsulting.com"
+  linkedin = "https://www.linkedin.com/in/ptotheraff/"
+  # Bumped on meaningful releases; surfaced as an HTML comment on every page so a
+  # specific build can be confirmed live with curl.
+  deployMarker = "v0.2.0"
+
+[markup.goldmark.renderer]
+  unsafe = false
+
+[markup.tableOfContents]
+  startLevel = 2
+  endLevel = 3
+
+[[menus.main]]
+  name = "For Startups"
+  pageRef = "/startups"
+  weight = 10
+
+[[menus.main]]
+  name = "For Enterprises"
+  pageRef = "/enterprise"
+  weight = 20
+
+[[menus.main]]
+  name = "Approach"
+  pageRef = "/approach"
+  weight = 30
+
+[[menus.main]]
+  name = "Insights"
+  pageRef = "/insights"
+  weight = 40
+
+[[menus.main]]
+  name = "About"
+  pageRef = "/about"
+  weight = 50
+
+[[menus.main]]
+  name = "Contact"
+  pageRef = "/contact"
+  weight = 60

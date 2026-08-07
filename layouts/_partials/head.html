@@ -1,0 +1,29 @@
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  {{- $title := site.Title -}}
+  {{- if not .IsHome -}}
+    {{- $title = printf "%s — %s" .Title site.Title -}}
+  {{- end }}
+  <title>{{ $title }}</title>
+
+  {{- $desc := .Description | default site.Params.description }}
+  <meta name="description" content="{{ $desc }}">
+  <link rel="canonical" href="{{ .Permalink }}">
+
+  <meta property="og:type" content="{{ if eq .Kind "page" }}article{{ else }}website{{ end }}">
+  <meta property="og:site_name" content="{{ site.Title }}">
+  <meta property="og:title" content="{{ $title }}">
+  <meta property="og:description" content="{{ $desc }}">
+  <meta property="og:url" content="{{ .Permalink }}">
+  <meta name="twitter:card" content="summary">
+
+  {{ with .OutputFormats.Get "rss" -}}
+    <link rel="alternate" type="application/rss+xml" href="{{ .Permalink }}" title="{{ site.Title }}">
+  {{- end }}
+
+  <link rel="stylesheet" href="{{ "css/main.css" | relURL }}">
+
+  <!-- deploy-marker: {{ site.Params.deployMarker }} -->
+</head>

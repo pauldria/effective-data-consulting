@@ -1,0 +1,46 @@
+{{ define "main" }}
+<section class="hero">
+  <div class="wrap">
+    <h1>{{ .Title }}</h1>
+    {{ with .Description }}<p class="lede">{{ . }}</p>{{ end }}
+  </div>
+</section>
+
+<div class="wrap prose">
+  {{ .Content }}
+</div>
+
+<section class="tracks">
+  <div class="wrap">
+    <h2 class="section-label">Where to start</h2>
+    <div class="track-grid">
+      {{ range slice "/startups" "/enterprise" }}
+        {{ with site.GetPage . }}
+        <a class="track" href="{{ .RelPermalink }}">
+          <h3>{{ .Title }}</h3>
+          {{ with .Description }}<p>{{ . }}</p>{{ end }}
+          <span class="track-cta">Read more &rarr;</span>
+        </a>
+        {{ end }}
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+{{ $insights := where site.RegularPages "Section" "insights" }}
+{{ with $insights }}
+<section class="recent">
+  <div class="wrap">
+    <h2 class="section-label">Recent insights</h2>
+    <ul class="card-list">
+      {{ range first 3 (.ByDate.Reverse) }}
+      <li class="card">
+        <h3 class="card-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+        {{ with .Description }}<p class="muted">{{ . }}</p>{{ end }}
+      </li>
+      {{ end }}
+    </ul>
+  </div>
+</section>
+{{ end }}
+{{ end }}

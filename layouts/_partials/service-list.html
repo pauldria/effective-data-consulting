@@ -1,0 +1,37 @@
+{{- /*
+  Renders the shared service catalogue with audience-specific framing.
+
+  Facts (name, category, summary, deliverables, duration) come from
+  data/services.yaml and are defined exactly once. Each audience track supplies
+  only its own framing, so updating a deliverable updates both tracks.
+
+  Usage: {{ partial "service-list.html" (dict "audience" "startup") }}
+*/ -}}
+{{- $audience := .audience -}}
+<ol class="services">
+  {{- range site.Data.services.services }}
+  <li class="service" id="{{ .id }}">
+    <div class="service-head">
+      <h3 class="service-name">{{ .name }}</h3>
+      <p class="service-meta">
+        <span class="tag">{{ .category }}</span>
+        <span class="muted">{{ .duration }}</span>
+      </p>
+    </div>
+    <p class="service-summary">{{ .summary }}</p>
+    {{- with index .framing $audience }}
+    <p class="service-framing">{{ . }}</p>
+    {{- end }}
+    {{- with .deliverables }}
+    <div class="deliverables">
+      <p class="deliverables-label">Typical deliverables</p>
+      <ul>
+        {{- range . }}
+        <li>{{ . }}</li>
+        {{- end }}
+      </ul>
+    </div>
+    {{- end }}
+  </li>
+  {{- end }}
+</ol>

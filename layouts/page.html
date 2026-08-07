@@ -1,0 +1,14 @@
+{{ define "main" }}
+<article class="wrap prose">
+  <header class="page-head">
+    <h1>{{ .Title }}</h1>
+    {{ with .Description }}<p class="lede">{{ . }}</p>{{ end }}
+    {{ if and (eq .Section "insights") .Date }}
+      <p class="muted small">
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+      </p>
+    {{ end }}
+  </header>
+  {{ .Content }}
+</article>
+{{ end }}

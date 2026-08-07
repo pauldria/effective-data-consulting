@@ -1,0 +1,114 @@
+# Single source of truth for the service catalogue.
+#
+# Facts live here and are rendered on BOTH audience tracks. Each track supplies
+# only its own framing, under `framing.startup` and `framing.enterprise`.
+#
+# To change what a service includes, edit it once here. Both tracks update.
+# To change how a service is pitched to one audience, edit that framing string.
+#
+# Order on the page follows the order in this list.
+
+services:
+  - id: strategy
+    name: "Data & AI Strategy"
+    category: Advisory
+    duration: "6–10 weeks"
+    summary: >-
+      A roadmap connecting your data assets to specific business outcomes,
+      with sequencing and cost attached to each step.
+    framing:
+      startup: >-
+        At seed and Series A the risk is building infrastructure for a scale you
+        have not reached. We focus on the smallest foundation that supports the
+        next eighteen months, and name explicitly what to defer.
+      enterprise: >-
+        Large organisations rarely lack data initiatives; they lack a defensible
+        order of operations across competing ones. We produce a sequenced plan
+        that survives contact with budget cycles and existing platform commitments.
+    deliverables:
+      - "Current-state assessment and capability gaps"
+      - "Prioritised initiative roadmap with effort and dependency mapping"
+      - "Business-case model for the top initiatives"
+
+  - id: architecture
+    name: "Data Architecture & Engineering"
+    category: Engineering
+    duration: "8–16 weeks"
+    summary: >-
+      Warehouse, pipeline, and platform design — and the implementation work to
+      get it running in production.
+    framing:
+      startup: >-
+        We build the stack a small team can actually operate: managed services
+        over bespoke infrastructure, and a design that will not need replacing
+        the first time headcount doubles.
+      enterprise: >-
+        We work inside existing platform standards, security review, and change
+        control rather than around them, and design for migration paths that do
+        not require a big-bang cutover.
+    deliverables:
+      - "Target-state architecture and migration path"
+      - "Pipeline implementation with tests and monitoring"
+      - "Runbook and handover to your team"
+
+  - id: governance
+    name: "Data Governance & Quality"
+    category: Advisory
+    duration: "8–12 weeks"
+    summary: >-
+      Ownership models, quality controls, and metric definitions that make data
+      trustworthy enough to make decisions on.
+    framing:
+      startup: >-
+        Lightweight by design. Enough definition and ownership that your numbers
+        agree with each other, without a governance process that a ten-person
+        team will quietly abandon.
+      enterprise: >-
+        Aligned to existing risk, privacy, and audit obligations, with a
+        stewardship model that assigns real accountability rather than a RACI
+        chart nobody consults.
+    deliverables:
+      - "Data quality scorecard and monitoring"
+      - "Ownership and stewardship model"
+      - "Metric definitions and a maintained business glossary"
+
+  - id: ml
+    name: "ML & AI Product Development"
+    category: Engineering
+    duration: "10–20 weeks"
+    summary: >-
+      Machine learning and AI systems taken from prototype to something that
+      runs reliably and can be maintained.
+    framing:
+      startup: >-
+        We are candid about when a model is not yet the answer. Where it is, we
+        build the smallest production-grade version and the evaluation harness
+        that tells you whether it is working.
+      enterprise: >-
+        Built for the parts that decide whether a model survives: monitoring,
+        retraining, model documentation, and the evidence trail your risk and
+        compliance functions will ask for.
+    deliverables:
+      - "Feasibility assessment and evaluation framework"
+      - "Production model deployment with monitoring"
+      - "Model documentation and retraining process"
+
+  - id: advisory
+    name: "Executive & Team Advisory"
+    category: Advisory
+    duration: "Ongoing, typically monthly"
+    summary: >-
+      Standing advisory support for leaders making data and AI decisions,
+      including hiring, vendor selection, and technical due diligence.
+    framing:
+      startup: >-
+        Often the most useful engagement before you have a data team: help
+        defining the first hire, evaluating vendors, and avoiding decisions that
+        are expensive to unwind.
+      enterprise: >-
+        A senior outside perspective for platform decisions, build-versus-buy
+        assessments, and due diligence — independent of any vendor relationship.
+    deliverables:
+      - "Scheduled advisory sessions with written follow-ups"
+      - "Vendor and build-versus-buy assessments"
+      - "Role definitions and interview support for data hires"
