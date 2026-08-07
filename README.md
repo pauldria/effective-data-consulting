@@ -2,96 +2,128 @@
 
 Website for [effectivedataconsulting.com](https://effectivedataconsulting.com).
 
-Plain static HTML — no build step, no framework, no dependencies. Deployed to
-GitHub Pages by GitHub Actions on every push to `main`.
+Hugo static site, no theme, deployed to GitHub Pages by GitHub Actions on every
+push to `main`.
 
-## Layout
-
-| Path                           | Purpose                                                   |
-| ------------------------------ | --------------------------------------------------------- |
-| `index.html`                   | The site. Self-contained: markup + inline CSS, no assets.  |
-| `404.html`                     | Served by Pages for unmatched paths.                       |
-| `.github/workflows/static.yml` | Uploads the repo root and deploys it to Pages.             |
-
-There is deliberately **no `CNAME` file** and **no `.nojekyll` file** — see
-[Deployment](#deployment) for why.
-
-## Contributing
-
-There is no toolchain to install.
+## Quick start
 
 ```bash
+brew install hugo
 git clone git@github.com:pauldria/effective-data-consulting.git
 cd effective-data-consulting
-python3 -m http.server 8000     # then open http://localhost:8000
+hugo server        # http://localhost:1313, live-reloads on save
 ```
 
-Edit `index.html`, reload the browser. Open a PR against `main`; merging deploys.
+Hugo is the only prerequisite, and only for local preview — you can publish from
+any machine with a text editor and git.
+
+## Adding a page
+
+Add an article:
+
+```bash
+hugo new content/insights/my-article.md
+```
+
+Then edit it. The `/insights/` index, the homepage "Recent insights" block, and
+the RSS feed all pick it up automatically — no layout or nav edits.
+
+Add a top-level page: create `content/whatever.md`, then add an entry under
+`[[menus.main]]` in `hugo.toml` if it should appear in the nav.
+
+## Repo layout
+
+```
+content/          ← everything you write
+  _index.md         homepage
+  about.md
+  approach.md
+  contact.md
+  startups/         audience track
+  enterprise/       audience track
+  insights/         articles; one file per article
+data/
+  services.yaml   ← single source of truth for the service catalogue
+layouts/          ← templates; rarely touched after setup
+  baseof.html       page shell
+  home.html         homepage
+  page.html         single pages
+  section.html      section index pages
+  services.html     custom layout for the two services pages
+  404.html
+  _partials/        head, header, footer, service-list
+static/
+  css/main.css    ← all styling, one file
+```
+
+`content/` and `data/` are yours. You should never need to open `layouts/` to
+publish.
+
+> **Note on `layouts/`:** Hugo v0.146.0 restructured this folder — `_default/`
+> was flattened into `layouts/`, `partials/` became `_partials/`, and the
+> homepage template is `home.html`, not `index.html`. Older Hugo tutorials will
+> tell you otherwise.
+
+## The services data file
+
+Both `/startups/services/` and `/enterprise/services/` render from
+`data/services.yaml`. Facts — name, category, duration, summary, deliverables —
+are defined **once**. Each track supplies only its own framing:
+
+```yaml
+- id: governance
+  name: "Data Governance & Quality"
+  duration: "8–12 weeks"
+  summary: "Ownership models, quality controls, metric definitions."
+  framing:
+    startup: "Lightweight by design..."
+    enterprise: "Aligned to existing risk and audit obligations..."
+  deliverables:
+    - "Data quality scorecard"
+```
+
+This is deliberate. Two parallel audience tracks rot when one is updated and the
+other is forgotten; keeping the facts in one place means a deliverable change
+updates both tracks at once.
+
+To add a service, append an entry. To reorder them, reorder the list.
 
 ## Deployment
 
-`static.yml` is GitHub's official `pages/static.yml` starter workflow, unmodified
-apart from pinning the branch to `main`. It runs on push to `main` and on manual
-dispatch, uploads the entire repo root as the Pages artifact, and deploys it as-is.
+`.github/workflows/hugo.yml` runs on push to `main` and on manual dispatch:
+installs Hugo, runs `hugo --gc --minify`, uploads `./public` as the Pages
+artifact, deploys.
 
-Two consequences worth knowing:
-
-- **No Jekyll runs.** Artifact-based deploys serve files verbatim, so a `.nojekyll`
-  marker would do nothing.
-- **A `CNAME` file does nothing.** Per GitHub's docs, when publishing from a custom
-  Actions workflow "no `CNAME` file is created, and any existing `CNAME` file is
-  ignored and is not required." The custom domain lives in repo settings only.
+**The Hugo version is pinned** in that workflow (`HUGO_VERSION`). Hugo ships
+breaking template changes in minor releases, so an unpinned build can fail with
+no commit to this repo. Bump it deliberately, and run `hugo server` locally on
+the same version first.
 
 Watch a deploy at [Actions](https://github.com/pauldria/effective-data-consulting/actions).
 
-### Required repo settings
+### Repo settings (already configured)
 
-One-time, through the GitHub UI — these cannot be committed:
+- Settings → Pages → Source = **GitHub Actions**
+- Settings → Pages → Custom domain = `effectivedataconsulting.com`
+- Enforce HTTPS enabled
 
-1. **Settings → Pages → Build and deployment → Source** must be **GitHub Actions**.
-   If it is left on "Deploy from a branch", the workflow fails at the deploy step.
-2. **Settings → Pages → Custom domain** → `effectivedataconsulting.com`, then Save.
-   This is the *only* place the domain is configured.
-3. **Enforce HTTPS** — tick it once GitHub finishes provisioning the certificate.
-   The docs allow up to 24 hours, though it is usually minutes.
-
-Recommended: verify the domain under **Settings → Pages → Verified domains** before
-pointing DNS at it, which blocks takeover of the domain by other GitHub accounts.
-
-### DNS
-
-Apex domain needs four `A` records:
-
-```
-185.199.108.153
-185.199.109.153
-185.199.110.153
-185.199.111.153
-```
-
-Optionally `AAAA` for IPv6:
-
-```
-2606:50c0:8000::153
-2606:50c0:8001::153
-2606:50c0:8002::153
-2606:50c0:8003::153
-```
-
-Optionally a `CNAME` for `www` → `pauldria.github.io` (no repo name). GitHub then
-redirects `www` → apex automatically.
-
-Verify with:
-
-```bash
-dig effectivedataconsulting.com +noall +answer -t A
-```
+There is deliberately **no `CNAME` file**: with Actions-based publishing GitHub
+ignores it, and the domain is configured in repo settings only. There is no
+`.nojekyll` either — artifact deploys serve files verbatim, so Jekyll never runs.
 
 ## Verifying a deploy
 
-`index.html` carries a `deploy-marker` comment. Bump it when you want to confirm a
-specific build reached production:
+Every page carries a `deploy-marker` comment, set from `params.deployMarker` in
+`hugo.toml`. Bump it when you want to confirm a specific build went live:
 
 ```bash
 curl -s https://effectivedataconsulting.com | grep deploy-marker
 ```
+
+## Conventions
+
+- **Voice:** first-person plural ("we"). Firm, not personal brand.
+- **No motion.** No scroll animation, no marquees. Stillness reads as established.
+- **Claims are qualified.** Specificity earns credibility; adjectives do not.
+- **Front matter:** `title` and `description` on every page. `weight` controls
+  ordering. Services pages additionally need `layout: services` and `audience`.

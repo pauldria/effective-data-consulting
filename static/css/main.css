@@ -1,0 +1,385 @@
+/* Effective Data Consulting
+   Typography-led, static, no motion. Palette is intentionally small.
+   ------------------------------------------------------------------ */
+
+:root {
+  --ink:        #14171c;
+  --ink-soft:   #454c58;
+  --muted:      #6b7280;
+  --rule:       #e2e5ea;
+  --rule-soft:  #eef0f4;
+  --paper:      #ffffff;
+  --paper-alt:  #f7f8fa;
+  --accent:     #1a4f8a;
+  --accent-ink: #123a67;
+
+  --serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --sans:  -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+
+  --measure: 34rem;
+  --wrap:    62rem;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 1.0625rem/1.7 var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* --- Typography ---------------------------------------------------- */
+
+h1, h2, h3, h4 {
+  font-family: var(--serif);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+h1 { font-size: clamp(2rem, 4.5vw, 2.85rem); margin: 0 0 0.6rem; }
+h2 { font-size: 1.6rem; margin: 2.75rem 0 0.85rem; }
+h3 { font-size: 1.2rem; margin: 2rem 0 0.6rem; }
+
+p, ul, ol { margin: 0 0 1.15rem; }
+
+a {
+  color: var(--accent);
+  text-underline-offset: 0.15em;
+}
+a:hover { color: var(--accent-ink); }
+
+.lede {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: var(--measure);
+  margin: 0 0 1rem;
+}
+
+.muted { color: var(--muted); }
+.small { font-size: 0.875rem; }
+
+.section-label {
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin: 0 0 1.5rem;
+}
+
+/* --- Skip link ----------------------------------------------------- */
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+}
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+  z-index: 10;
+  background: var(--paper);
+  padding: 0.6rem 1rem;
+  border: 2px solid var(--accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* --- Header -------------------------------------------------------- */
+
+.site-header {
+  border-bottom: 1px solid var(--rule);
+  background: var(--paper);
+}
+
+.header-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem 2rem;
+  padding-top: 1.35rem;
+  padding-bottom: 1.35rem;
+}
+
+.wordmark {
+  font-family: var(--serif);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.35rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.9375rem;
+}
+
+.nav a {
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+.nav a:hover { color: var(--accent); }
+.nav a[aria-current="page"] {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* --- Page structure ------------------------------------------------ */
+
+main { display: block; }
+
+.page-head {
+  padding: 3.5rem 0 1.5rem;
+  border-bottom: 1px solid var(--rule-soft);
+  margin-bottom: 2.25rem;
+}
+
+.hero {
+  border-bottom: 1px solid var(--rule-soft);
+  padding: 5rem 0 3.5rem;
+}
+.hero h1 { max-width: 22ch; }
+
+.prose { max-width: var(--measure); }
+.prose h2:first-child, .prose h3:first-child { margin-top: 0; }
+.prose li { margin-bottom: 0.4rem; }
+
+.prose blockquote {
+  margin: 2rem 0;
+  padding-left: 1.25rem;
+  border-left: 3px solid var(--rule);
+  color: var(--ink-soft);
+  font-family: var(--serif);
+  font-size: 1.1rem;
+}
+
+/* --- Tracks (homepage) --------------------------------------------- */
+
+.tracks, .recent { padding: 3.5rem 0; }
+.tracks { background: var(--paper-alt); border-top: 1px solid var(--rule-soft); }
+
+.track-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+}
+
+.track {
+  display: block;
+  padding: 1.75rem;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  text-decoration: none;
+  color: inherit;
+}
+.track:hover { border-color: var(--accent); }
+.track h3 { margin: 0 0 0.5rem; }
+.track p { color: var(--ink-soft); margin-bottom: 1rem; }
+
+.track-cta {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* --- Card lists ---------------------------------------------------- */
+
+.card-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.card {
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--rule-soft);
+}
+.card:last-child { border-bottom: 0; }
+
+.card-title { margin: 0 0 0.35rem; font-size: 1.15rem; }
+.card-title a { text-decoration: none; }
+.card-title a:hover { text-decoration: underline; }
+.card p { margin-bottom: 0.35rem; }
+
+/* --- Services ------------------------------------------------------ */
+
+.services {
+  list-style: none;
+  counter-reset: svc;
+  margin: 2.5rem 0 0;
+  padding: 0;
+}
+
+.service {
+  counter-increment: svc;
+  padding: 2rem 0;
+  border-top: 1px solid var(--rule);
+}
+
+.service-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+}
+
+.service-name { margin: 0; }
+.service-name::before {
+  content: counter(svc, decimal-leading-zero);
+  display: block;
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 0.35rem;
+}
+
+.service-meta {
+  margin: 0;
+  font-size: 0.875rem;
+  display: flex;
+  gap: 0.75rem;
+  align-items: baseline;
+}
+
+.tag {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+  border: 1px solid var(--rule);
+  padding: 0.15rem 0.5rem;
+}
+
+.service-summary {
+  margin: 0.9rem 0 0.5rem;
+  max-width: var(--measure);
+  font-size: 1.0625rem;
+}
+
+.service-framing {
+  margin: 0 0 1rem;
+  max-width: var(--measure);
+  color: var(--ink-soft);
+}
+
+.deliverables-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin: 0 0 0.4rem;
+}
+
+.deliverables ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.9375rem;
+  color: var(--ink-soft);
+}
+
+/* --- CTA ----------------------------------------------------------- */
+
+.cta {
+  margin: 3.5rem 0 0;
+  padding: 2rem;
+  background: var(--paper-alt);
+  border: 1px solid var(--rule);
+}
+.cta p { max-width: var(--measure); }
+.cta p:last-child { margin-bottom: 0; }
+
+.button {
+  display: inline-block;
+  padding: 0.7rem 1.4rem;
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+.button:hover { background: var(--accent-ink); color: #fff; }
+
+/* --- Footer -------------------------------------------------------- */
+
+.site-footer {
+  margin-top: 5rem;
+  border-top: 1px solid var(--rule);
+  padding: 2.5rem 0 2rem;
+  font-size: 0.9375rem;
+}
+
+.footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1.5rem 3rem;
+  padding-bottom: 1.5rem;
+}
+
+.footer-name {
+  font-family: var(--serif);
+  font-weight: 600;
+  margin: 0 0 0.25rem;
+}
+.footer-inner p { margin: 0 0 0.25rem; }
+.footer-links { text-align: left; }
+
+/* --- Tables -------------------------------------------------------- */
+
+.prose table, table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.75rem 0;
+  font-size: 0.9375rem;
+}
+th, td {
+  text-align: left;
+  padding: 0.6rem 0.75rem 0.6rem 0;
+  border-bottom: 1px solid var(--rule-soft);
+  vertical-align: top;
+}
+th {
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  border-bottom-color: var(--rule);
+}
+
+/* --- Print --------------------------------------------------------- */
+
+@media print {
+  .site-header, .site-footer, .cta { display: none; }
+  body { font-size: 11pt; }
+}

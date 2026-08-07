@@ -1,4 +1,12 @@
+# Hugo build output and locks
+/public/
+/resources/_gen/
+.hugo_build.lock
+
+# OS / editor
 .DS_Store
-node_modules/
 *.log
+
+# Not used, but cheap insurance if tooling is ever added
+node_modules/
 .venv/
